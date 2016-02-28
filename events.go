@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "time"
 
 type timeEvent struct {
 	Action string
@@ -28,14 +25,15 @@ func fireEvents(events []timeEvent) {
 func initTimeEvents(events *[]timeEvent) {
 	eventLightsOn := timeEvent{Action: "lights_on", Hour: 6, Minute: 0, Second: 0}
 	eventLightsOff := timeEvent{Action: "lights_off", Hour: 0, Minute: 0, Second: 30}
-	eventMoistureReading := timeEvent{Action: "moisture_reading", Hour: 21, Minute: 42, Second: 30}
-	*events = append(*events, eventLightsOn, eventLightsOff, eventMoistureReading)
+	*events = append(*events, eventLightsOn, eventLightsOff)
+
+	// Read moisture sensor every hour
+	for hour := 0; hour < 24; hour++ {
+		*events = append(*events, timeEvent{Action: "moisture_reading", Hour: hour, Minute: 59, Second: 0})
+	}
 }
 
 func findTimeEvents(events []timeEvent, startTime time.Time, endTime time.Time) []timeEvent {
-	fmt.Println("Clock Time")
-	fmt.Println(startTime.Clock())
-
 	startSecond := clockToSecond(startTime.Clock())
 	endSecond := clockToSecond(endTime.Clock())
 

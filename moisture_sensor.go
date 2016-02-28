@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -28,7 +27,13 @@ func readMoistureSensor() {
 	serialReadString := receiveMoistureReading(s)
 
 	sensorReadings := parseMoistureReading(serialReadString)
-	fmt.Println(sensorReadings)
+	logMoistureReadings(sensorReadings)
+}
+
+func logMoistureReadings(readings []moistureReading) {
+	for _, reading := range readings {
+		info.Printf("Moisture %s: %d\n", reading.Sensor, reading.Value)
+	}
 }
 
 func receiveMoistureReading(s io.ReadWriteCloser) string {

@@ -1,9 +1,7 @@
 package main
 
-import "fmt"
-
 func lightsOn() {
-	fmt.Println("Turning Lights On")
+	info.Printf("Turning Lights On")
 	if !isSimulator {
 		pin.High()
 	}
@@ -11,7 +9,7 @@ func lightsOn() {
 }
 
 func lightsOff() {
-	fmt.Println("Turning Lights Off")
+	info.Printf("Turning Lights Off")
 	if !isSimulator {
 		pin.Low()
 	}

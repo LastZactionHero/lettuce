@@ -12,6 +12,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -20,8 +21,11 @@ import (
 
 var pin rpio.Pin
 var isSimulator bool
+var info *log.Logger
 
 func main() {
+	info = log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+
 	var timeEvents []timeEvent
 
 	initTimeEvents(&timeEvents)
