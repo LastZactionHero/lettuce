@@ -19,6 +19,8 @@ func fireEvents(events []timeEvent) {
 			lightsOn()
 		case "lights_off":
 			lightsOff()
+		case "moisture_reading":
+			readMoistureSensor()
 		}
 	}
 }
@@ -26,7 +28,8 @@ func fireEvents(events []timeEvent) {
 func initTimeEvents(events *[]timeEvent) {
 	eventLightsOn := timeEvent{Action: "lights_on", Hour: 6, Minute: 0, Second: 0}
 	eventLightsOff := timeEvent{Action: "lights_off", Hour: 0, Minute: 0, Second: 30}
-	*events = append(*events, eventLightsOn, eventLightsOff)
+	eventMoistureReading := timeEvent{Action: "moisture_reading", Hour: 21, Minute: 42, Second: 30}
+	*events = append(*events, eventLightsOn, eventLightsOff, eventMoistureReading)
 }
 
 func findTimeEvents(events []timeEvent, startTime time.Time, endTime time.Time) []timeEvent {

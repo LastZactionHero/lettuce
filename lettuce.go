@@ -4,6 +4,7 @@
 // RaspberryPi Library: go-rpio
 // https://github.com/stianeikeland/go-rpio
 //
+
 // fswebcam image.jpg
 // scp pi@192.168.1.126:/home/pi/image.jpg ./
 
@@ -24,11 +25,9 @@ func main() {
 	var timeEvents []timeEvent
 
 	initTimeEvents(&timeEvents)
-	fmt.Println(timeEvents)
 
 	isSimulator = os.Getenv("LETTUCE_SIMULATOR") == "true"
 
-	fmt.Println(isSimulator)
 	if isSimulator {
 		fmt.Println("Simulator Mode")
 	} else {
@@ -44,15 +43,9 @@ func main() {
 
 	lastTime := time.Now()
 	for {
-		fmt.Println("Tick")
-
 		currentTime := time.Now()
-		fmt.Println("Current Time:")
-		fmt.Println(currentTime)
 
 		events := findTimeEvents(timeEvents, lastTime, currentTime)
-		fmt.Println("Found Events:")
-		fmt.Println(events)
 		fireEvents(events)
 
 		lastTime = currentTime
