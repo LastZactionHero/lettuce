@@ -45,6 +45,9 @@ func main() {
 	// Lights are probably on when we're deploying
 	lightsOn()
 
+	// First moisture read
+	readMoistureSensor()
+
 	lastTime := time.Now()
 	for {
 		currentTime := time.Now()

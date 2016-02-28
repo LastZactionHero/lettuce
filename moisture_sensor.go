@@ -2,9 +2,11 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"log"
 	"os"
+	"os/exec"
 	"regexp"
 	"strconv"
 	"strings"
@@ -19,12 +21,18 @@ type moistureReading struct {
 }
 
 func readMoistureSensor() {
-	serialPort := os.Getenv("LETTUCE_SERIAL")
-	s := openSerialPort(serialPort)
-	defer s.Close()
+	fmt.Println("Read Moisture Sensor")
+	serialCmd := os.Getenv("LETTUCE_SERIAL_APP")
 
-	triggerMoistureReading(s)
-	serialReadString := receiveMoistureReading(s)
+	cmd := exec.Command("python", serialCmd)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	serialReadString := out.String()
 
 	sensorReadings := parseMoistureReading(serialReadString)
 	logMoistureReadings(sensorReadings)
@@ -58,7 +66,7 @@ func receiveMoistureReading(s io.ReadWriteCloser) string {
 func parseMoistureReading(input string) []moistureReading {
 	var readings []moistureReading
 
-	r, _ := regexp.Compile("[AB]:\r\n[0-9]+")
+	r, _ := regexp.Compile("[AB]:[\r\n]+[0-9]+")
 	readingStrs := r.FindAllString(input, -1)
 	for _, readingStr := range readingStrs {
 		rSensor, _ := regexp.Compile("[AB]")

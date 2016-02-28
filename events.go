@@ -29,7 +29,7 @@ func initTimeEvents(events *[]timeEvent) {
 
 	// Read moisture sensor every hour
 	for hour := 0; hour < 24; hour++ {
-		*events = append(*events, timeEvent{Action: "moisture_reading", Hour: hour, Minute: 59, Second: 0})
+		*events = append(*events, timeEvent{Action: "moisture_reading", Hour: hour, Minute: 0, Second: 0})
 	}
 }
 
