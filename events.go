@@ -23,13 +23,8 @@ func fireEvents(events []timeEvent) {
 }
 
 func initTimeEvents(events *[]timeEvent) {
-	eventLightsOn := timeEvent{Action: "lights_on", Hour: 6, Minute: 0, Second: 0}
-	eventLightsOff := timeEvent{Action: "lights_off", Hour: 0, Minute: 0, Second: 30}
-	*events = append(*events, eventLightsOn, eventLightsOff)
-
-	// Read moisture sensor every hour
-	for hour := 0; hour < 24; hour++ {
-		*events = append(*events, timeEvent{Action: "moisture_reading", Hour: hour, Minute: 0, Second: 0})
+	for _, event := range readTimeEventsFromStore() {
+		*events = append(*events, event)
 	}
 }
 
